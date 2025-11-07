@@ -1,0 +1,253 @@
+\documentclass[shadow=true]{beamer}
+\usepackage[russian]{babel}
+
+\usetheme{Warsaw}
+\usecolortheme{default}
+
+\title{P-Сети}
+\author{Коллектив команды №3 }
+\institute{303 группа}
+\date{13 ноября 2025г}
+\setbeamertemplate{footline}{}
+
+\usetheme{Madrid} 
+\usecolortheme{default} 
+\setbeamercolor{background canvas}{bg=white!85} 
+\setbeamercolor{normal text}{fg=black}
+\setbeamercolor{title}{fg=white} 
+\setbeamercolor{author}{fg=blue} 
+\setbeamercolor{institute}{fg=blue} 
+\setbeamercolor{date}{fg=blue} 
+
+\setbeamercolor{frametitle}{fg=white}
+\setbeamercolor{frametitle}{bg=blue!80}
+
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}
+\frametitle{Содержание}
+\tableofcontents
+\end{frame}
+
+% ------------------------------------------------------------------------
+
+\section{Часть общей теории}
+\begin{frame}
+    \frametitle{Часть общей теории}
+    \begin{definition}[Решётка $\mathcal{L}$]
+         \textbf{Решётка} --- это множество 
+        $\mathcal{L} = \{ (i, j, k) \in \Z^3 \mid i + j + k \in 2\mathbb{Z} \}$.
+    \end{definition}
+
+    \begin{definition}[Уравнение dSKP]
+        Говорим, что для функции $x : \mathcal{L} \to \widehat{\mathbb{C}}$  \textbf{выполняется свойство dSKP}, если 
+        \[
+            \frac{
+            (x_{-e_3} - x_{e_2})(x_{-e_1} - x_{e_3})(x_{-e_2} - x_{e_1})
+            }{
+            (x_{e_2} - x_{-e_1})(x_{e_3} - x_{-e_2})(x_{e_1} - x_{-e_3})
+            } = -1,
+        \]
+        где $x_q(p) := x(p + q)$ для $q\in\{\pm e_1,\pm e_2,\pm e_3\}$.
+    \end{definition}
+
+    \begin{definition}[Начальные данные]
+        Обозначим  \textbf{начальные данные} как $a_{i,j} = x(i, j, \sqbr{[i + j]}_2)$ для всех $(i, j) \in \ \mathbb{Z}^2$.
+    \end{definition}
+\end{frame}
+
+% ------------------------------------------------------------------------
+
+\begin{frame}
+    \begin{definition}[Ацтекский бриллиант]
+        \textbf{Ацтекский бриллиант} $A_k \sqbr{[a_{i,j}]}$ --- это подграф квадратной решётки с центром в грани
+        $(i,j)$, содержащии все грани на расстоянии, меньшем $k$ (в метрике городских кварталов).  
+    \end{definition}
+
+    \begin{figure}
+        \includegraphics[width=.5\textwidth]{3.jpg} 
+    \end{figure}
+\end{frame}
+
+% ------------------------------------------------------------------------
+
+\begin{frame}
+\begin{definition}[Конфигурации]
+        \textbf{Димерная конфигурация} $M$ ацтекского бриллианта --- это такое множество его рёбер, что
+        каждая вершина бриллианта лежит ровно на одном ребре этого множества. \\
+        \textbf{Ориентированная димерная конфигурация} $\vec{M}$ ацтекского бриллианта --- это такой набор
+        ориентированных рёбер бриллианта, что при забывании ориентации этот набор является димерной конфигурацией.
+    \end{definition}
+\end{frame}
+
+% ------------------------------------------------------------------------
+
+\begin{frame}
+    \begin{definition}[Ориентация Кастелейна]
+         \textbf{Ориентация Кастелейна} --- это кососимметрическая функция $\varphi$ из множества его
+        ориентированных рёбер в $\{-1, 1\}$, такая что для каждой внутренней грани $f$ степени $2k$
+        выполняется
+        \[
+            \prod_{(w,b) \in \partial{f}} \varphi_{(w,b)} = (-1)^{k+1}.
+        \]
+    \end{definition}
+    
+    \begin{definition}[Вес ориентированной димерной конфигурации $M$]
+         \textbf{Вес} $w(M)$ конфигурации $M$ --- это число
+        $w(\vec{M}) = \prod_{\vec{e} \in \vec{M}} \varphi_{\vec{e}}\, a_f(\vec{e})$.
+    \end{definition}
+    Всюду далее мы фиксируем ориентацию Кастелейна, в которой горизонтальные рёбра ацтекского бриллианта
+    направлены вправо, а направления вертикальных чередуются. 
+\end{frame}
+
+% ------------------------------------------------------------------------
+
+\begin{frame}{Ацтекский бриллиант}
+    \begin{figure}
+        \includegraphics[width=.6\textwidth]{1.png} 
+    \end{figure}
+\end{frame}
+
+% ------------------------------------------------------------------------
+
+\begin{frame}
+    \begin{definition}[Статистическая сумма]
+         \textbf{Статистическая сумма} --- это число
+        \[
+            Z\big(A_k[a_{i,j}], a \big)
+            = \sum_{\vec{M} \in \mathcal{\vec{M}}} w(\vec{M}),
+        \]
+        где $\mathcal{\vec{M}}$ --- это множество всех ориентированных димерных конфигураций бриллианта.
+    \end{definition}
+
+    \begin{definition}[Функция отношения димеров]
+         \textbf{Функция отношения димеров} определяется как
+        \[
+            Y\big(A_k[a_{i,j}], a\big)
+            = \prod_{f \in F} a_f \cdot 
+            \frac{
+            Z\big(A_k[a_{i,j}], a^{-1} \big)
+            }{
+            Z\big(A_k[a_{i,j}], a \big)
+            },
+        \]
+        где $F$ --- это множество граней $f$ бриллианта, $a_f$ --- вес грани $f$.
+    \end{definition}
+\end{frame}
+
+% ------------------------------------------------------------------------
+
+\begin{frame}
+    \begin{theorem}[Основной результат]
+        Пусть функция $x : \mathcal{L} \to \widehat{\mathbb{C}}$ удовлетворяет уравнению dSKP
+        с начальными данными $a_{i,j}$. Тогда для всех $(i, j, k) \in \mathcal{L}$, таких что $k \ge 1$,
+        выполняется равенство
+        \[
+            x(i, j, k) = Y\big(A_{k-1}[a_{i,j}], a\big).
+        \]
+    \end{theorem}
+\end{frame}
+
+% ------------------------------------------------------------------------
+
+\section{P-сети}
+\begin{frame}{Переходим к нашей теме}
+    \begin{figure}
+        \includegraphics[width=.9\textwidth]{2.png} 
+    \end{figure}
+
+\end{frame}
+
+% ------------------------------------------------------------------------
+
+\begin{frame}{Определение P-Сети}
+\begin{definition}[P-Сеть]
+Отображение $p: \mathbb{Z}^2 \to \hat{\mathbb{C}}$ называется \textbf{P-сетью}, если для всех $(i, j) \in \mathbb{Z}^2$:
+\[
+\frac{1}{p_{i+1,j} - p_{i,j}} - \frac{1}{p_{i,j+1} - p_{i,j}} + \frac{1}{p_{i-1,j} - p_{i,j}} - \frac{1}{p_{i,j-1} - p_{i,j}} = 0
+\]
+\end{definition}
+
+\begin{block}{Remark}
+    Эквивалентно: в любой аффинной карте $\mathbb{C}P^1$, где $p_{i,j}$ - - бесконечно удаленная точка, четверка \[{p_{i,j+1}; p_{i+1,j}; p_{i,j-1}; p_{i-1,j}}\] образует параллелограмм
+\end{block}
+\end{frame}
+
+% ------------------------------------------------------------------------
+
+\begin{frame}{Критерий P-сети}
+\begin{lemma}
+Отображение $p: \mathbb{Z}^2 \to \hat{\mathbb{C}}$ является P-сетью тогда и только тогда, когда для всех $(i, j) \in \mathbb{Z}^2$:
+\[
+\frac{(p_{i,j} - p_{i+1,j})(p_{i,j+1} - p_{i,j})(p_{i-1,j} - p_{i,j-1})}{(p_{i+1,j} - p_{i,j+1})(p_{i,j} - p_{i-1,j})(p_{i,j-1} - p_{i,j})} = -1
+\]
+\end{lemma}
+\end{frame}
+
+% ------------------------------------------------------------------------
+
+\begin{frame}
+    \begin{block}{Remark}
+    Пусть \( p_j := (p_{i,j})_{i \in \mathbb{Z}} \) обозначает точки \( j \)-й строки. 
+    Рекуррентное соотношение из предыдущей леммы влечет, что точки \( p_{j+1} \) определяются точками \( p_j \) и \( p_{j-1} \).
+    Таким образом, мы рассматриваем две строки данных как начальные данные, и это определяет всю P-сеть.
+\end{block} 
+\end{frame}
+
+% ------------------------------------------------------------------------
+
+\begin{frame}
+    \begin{theorem}
+    Пусть $p: \mathbb{Z}^2 \to \hat{\mathbb{C}}$ - P-сеть. Рассмотрим граф $\mathbb{Z}^2$ с весами граней:
+    \[a_{i,j} = p_{i,[i+j]_2}\]
+    Тогда для всех $i \in \mathbb{Z}, j \geq 1$:\[p_{i,j} = Y(A_{j-1}[p_{i,[j]_2}], a)\]
+\end{theorem} 
+\end{frame}
+
+% ------------------------------------------------------------------------
+
+\begin{frame}
+\begin{definition}[Отображение Пропаганды]
+   Определим \textbf{отображение распостранения данных (отображение Пропаганды)} \[T: (\hat{\mathbb{C}})^{\mathbb{Z}} \times (\hat{\mathbb{C}})^{\mathbb{Z}} \to (\hat{\mathbb{C}})^{\mathbb{Z}} \times (\hat{\mathbb{C}})^{\mathbb{Z}}, \quad (p_j, p_{j+1}) \mapsto (p_{j+1}, p_{j+2}).\]
+\end{definition}
+
+\begin{definition}[m-замкнутая сеть]
+    Пусть \( m \geq 1 \). P-сеть \( p \) называется \textbf{\( m \)-замкнутой}, если \[p_{i,j} = p_{i+m,j} \quad \text{для всех } i, j \in \mathbb{Z}.\]
+\end{definition}
+
+\end{frame}
+
+% ------------------------------------------------------------------------
+
+\begin{frame}
+\begin{theorem}
+    Пусть $m \geq 1$, $p$ - $m$-замкнутая P-сеть с $p_0 \equiv 0$. Если можно применить отображение распостранения $T$ к $(p_0, p_1)$ хотя бы $m-1$ раз, то:
+    \[p_{i,m} = \left( \frac{1}{m} \sum_{\ell=0}^{m-1} p_{\ell,1}^{-1} \right)^{-1}\]
+    Т.е. сингулярность (особенность) повторяется через $m-1$ шаг, а ее значение является гармоническим средним $p_1$
+\end{theorem}
+\end{frame}
+
+% ------------------------------------------------------------------------
+
+\begin{frame}
+\begin{theorem}
+    Пусть $m \in 2\mathbb{N} + 2$ и $p$ - $m$-замкнутая P-сеть с $p_0 \equiv 0$ и:
+    \[\sum_{\ell=0}^{m-1} (-1)^\ell p_{\ell,1}^{-1} = 0\]
+    Если можно применить отображение распостранения $T$ хотя бы $m-2$ раз, то для любого $i \in \ \mathbb{Z}$:
+    \[p_{i,m-1} = \left( \frac{1}{m} \sum_{\ell=0}^{m-1} p_{\ell,1}^{-1} \right)^{-1}\]
+    Аналогично предыдущей теореме, сингулярность (особенность) повторяется через $m-1$ шаг, а ее значение является гармоническим средним $p_1$
+\end{theorem}
+\end{frame}
+
+% ------------------------------------------------------------------------
+
+\begin{frame}
+    \begin{figure}
+        \includegraphics[width=.8\textwidth]{4.jpg} 
+    \end{figure}
+\end{frame}
+
+\end{document}
